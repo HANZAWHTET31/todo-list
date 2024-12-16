@@ -10,13 +10,28 @@ import {
 	Menu as MenuIcon,
 	DarkMode as DarkModeIcon,
 	LightMode as LightModeIcon,
+	ArrowBack as BackIcon,
 } from "@mui/icons-material";
+import { useApp } from "./AppProvider";
 
 export default function Header() {
+	const { mode, setMode } = useApp();
+
 	return (
 		<AppBar position="static">
-			<Toolbar sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-				<Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+			<Toolbar
+				sx={{
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "center",
+				}}>
+				<Box
+					sx={{
+						display: "flex",
+						justifyContent: "space-between",
+						alignItems: "center",
+						gap: 2,
+					}}>
 					<IconButton
 						color="inherit"
 						edge="start">
@@ -24,12 +39,17 @@ export default function Header() {
 					</IconButton>
 					<Typography>Todo-List</Typography>
 				</Box>
-
-				<IconButton
-					color="inherit"
-					edge="end">
-					<DarkModeIcon />
-				</IconButton>
+				
+				{mode === "dark" ? (
+					<IconButton color="inherit" onClick={() => setMode("light")}>
+						<LightModeIcon />
+					</IconButton>
+				) : (
+					<IconButton color="inherit" onClick={() => setMode("dark")}>
+						<DarkModeIcon />
+					</IconButton>
+				)}
+				
 			</Toolbar>
 		</AppBar>
 	);
