@@ -6,11 +6,11 @@ import {
 	ListItemText,
 	IconButton,
 	ButtonGroup,
-	Box,
+	Button,
 	Link,
-	ToggleButtonGroup,
-	ToggleButton,
-	ButtonBase,
+	FormControlLabel,
+	Checkbox,
+	Box,
 } from "@mui/material";
 import {
 	SquareOutlined as CheckBoxIcon,
@@ -19,28 +19,32 @@ import {
 	Delete as DeleteIcon,
 } from "@mui/icons-material";
 
-export default function Item({ item, toggle }) {
+export default function Item({ item, toggle, remove }) {
 	return (
-		<ListItem key={item.id} className="list-item-action">
-			<ListItemButton
-				divider
-				onClick={() => toggle(item.id)}
-				sx={{ display: "flex" }}>
-				{item.done ? (
-					<ListItemIcon>
-						<DoneIcon />
-					</ListItemIcon>
-				) : (
-					<ListItemIcon>
-						<CheckBoxIcon />
-					</ListItemIcon>
-				)}
-				<ListItemText primary={item.name} />
-				<ToggleButtonGroup>
-					<ToggleButton>Edit</ToggleButton>
-					<ToggleButton>Delete</ToggleButton>
-				</ToggleButtonGroup>
-			</ListItemButton>
+		<ListItem
+			key={item.id}
+			divider
+			sx={{gap: 1}}>
+			{item.done ? (
+				<IconButton onClick={() => toggle(item.id)}>
+					<DoneIcon color="success" />
+				</IconButton>
+			) : (
+				<IconButton onClick={() => toggle(item.id)}>
+					<CheckBoxIcon color="inherit" />
+				</IconButton>
+			)}
+			
+			<ListItemText primary={item.name} />
+			<Link to={`/edit/${item.id}`}>
+				<IconButton>
+					<EditIcon />
+				</IconButton>
+			</Link>
+
+			<IconButton onClick={() => remove(item.id)}>
+				<DeleteIcon color="error" />
+			</IconButton>
 		</ListItem>
 	);
 }
