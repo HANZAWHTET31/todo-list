@@ -8,10 +8,15 @@ import {
 	OutlinedInput,
 	InputAdornment,
 	IconButton,
+	Badge,
+	colors,
 } from "@mui/material";
 import Item from "./Item";
 import Header from "./Header";
-import { Add } from "@mui/icons-material";
+import {
+	Add as AddIcon,
+	Assignment as AssignmentIcon,
+} from "@mui/icons-material";
 
 export default function App() {
 	const [data, setData] = useState([
@@ -20,7 +25,7 @@ export default function App() {
 		{ id: 3, name: "Study programming", done: false },
 	]);
 
-	const todoInputRef = useRef();
+	const inputRef = useRef();
 
 	const toggle = (id) => {
 		setData(
@@ -32,9 +37,11 @@ export default function App() {
 	};
 
 	const remove = (id) => {
-		setData(data.filter(item => {
-			return item.id !== id;
-		}))
+		setData(
+			data.filter((item) => {
+				return item.id !== id;
+			}),
+		);
 	};
 
 	return (
@@ -44,7 +51,24 @@ export default function App() {
 				maxWidth="md"
 				sx={{ mt: 3 }}>
 				<Box>
-					<Typography variant="h4">Todo</Typography>
+					<Typography
+						variant="h4"
+						sx={{
+							display: "flex",
+							justifyContent: "space-between",
+							alignItems: "center",
+						}}>
+						Todo
+						<Badge
+							badgeContent={
+								data.filter(
+									(item) => !item.done,
+								).length
+							}
+							color="info">
+							<AssignmentIcon />
+						</Badge>
+					</Typography>
 					<Divider
 						sx={{
 							height: 10,
@@ -52,23 +76,31 @@ export default function App() {
 							mb: 3,
 						}}
 					/>
-					<form onSubmit={e => {
-						e.preventDefault();
-						const todoName = todoInputRef.current.value;
-						if(!todoName) return false;
+					<form
+						onSubmit={(e) => {
+							e.preventDefault();
+							const task = inputRef.current.value;
+							if (!task) return false;
 
-						setData([{id: data.length + 1, name: todoName, done: false}, ...data]);
+							setData([
+								{
+									id: data.length + 1,
+									name: task,
+									done: false,
+								},
+								...data,
+							]);
 
-						todoInputRef.current.value = "";
-						todoInputRef.current.focus();
-					}}>
+							inputRef.current.value = "";
+							inputRef.current.focus();
+						}}>
 						<OutlinedInput
 							fullWidth
-							inputRef={todoInputRef}
+							inputRef={inputRef}
 							endAdornment={
 								<InputAdornment position="end">
 									<IconButton type="submit">
-										<Add />
+										<AddIcon />
 									</IconButton>
 								</InputAdornment>
 							}
@@ -91,7 +123,23 @@ export default function App() {
 				</Box>
 
 				<Box sx={{ mt: 2 }}>
-					<Typography variant="h4">Done</Typography>
+					<Typography
+						variant="h4"
+						sx={{
+							display: "flex",
+							justifyContent: "space-between",
+							alignItems: "center",
+						}}>
+						Done
+						<Badge
+							badgeContent={
+								data.filter((item) => item.done)
+									.length
+							}
+							color="info">
+							<AssignmentIcon />
+						</Badge>
+					</Typography>
 					<Divider
 						sx={{
 							height: 10,

@@ -36,11 +36,11 @@ export default function Item({ item, toggle, remove }) {
 			)}
 			
 			<ListItemText primary={item.name} />
-			<Link to={`/edit/${item.id}`}>
+			{/* <Link to={`/edit/${item.id}`}>
 				<IconButton>
 					<EditIcon />
 				</IconButton>
-			</Link>
+			</Link> */}
 
 			<IconButton onClick={() => remove(item.id)}>
 				<DeleteIcon color="error" />
