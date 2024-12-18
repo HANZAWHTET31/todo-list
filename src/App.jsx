@@ -9,7 +9,6 @@ import {
 	InputAdornment,
 	IconButton,
 	Badge,
-	colors,
 } from "@mui/material";
 import Item from "./Item";
 import Header from "./Header";
