@@ -9,9 +9,10 @@ import {
 	InputAdornment,
 	IconButton,
 	Badge,
+	Alert,
 } from "@mui/material";
-import Item from "./Item";
-import Header from "./Header";
+import Item from "./components/Item";
+import Header from "./components/Header";
 import {
 	Add as AddIcon,
 	Assignment as AssignmentIcon,
@@ -23,6 +24,8 @@ export default function App() {
 		{ id: 2, name: "Gardening", done: true },
 		{ id: 3, name: "Study programming", done: false },
 	]);
+
+	const [error, setError] = useState(false);
 
 	const inputRef = useRef();
 
@@ -75,23 +78,51 @@ export default function App() {
 							mb: 3,
 						}}
 					/>
+
+					{error && (
+						<Box sx={{mb: 3}}>
+							<Alert severity="warning">
+								<Typography>Please enter something todo.....</Typography>
+							</Alert>
+						</Box>
+					)}
+
 					<form
 						onSubmit={(e) => {
 							e.preventDefault();
 							const task = inputRef.current.value;
-							if (!task) return false;
 
-							setData([
-								{
-									id: data.length + 1,
-									name: task,
-									done: false,
-								},
-								...data,
-							]);
+							if(task) {
+								setData([
+									...data, {id: data[data.length - 1].id + 1, name: task, done: false}
+								]);
 
-							inputRef.current.value = "";
-							inputRef.current.focus();
+								inputRef.current.value = "";
+								inputRef.current.focus();
+							} else {
+								setError(true);
+								setTimeout(() => setError(false), 3000);
+								return false;
+							}
+
+
+							// if(!task) {
+							// 	setError(true);
+							// 	setTimeout(() => setError(false), 3000);
+							// 	return false;
+							// }
+
+							// setData([
+							// 	{
+							// 		id: data.length + 1,
+							// 		name: task,
+							// 		done: false,
+							// 	},
+							// 	...data,
+							// ]);
+
+							// inputRef.current.value = "";
+							// inputRef.current.focus();
 						}}>
 						<OutlinedInput
 							fullWidth

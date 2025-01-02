@@ -12,7 +12,7 @@ import {
 	LightMode as LightModeIcon,
 	ArrowBack as BackIcon,
 } from "@mui/icons-material";
-import { useApp } from "./AppProvider";
+import { useApp } from "../AppProvider";
 
 export default function Header() {
 	const { mode, setMode } = useApp();
